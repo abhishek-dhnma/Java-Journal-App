@@ -1,0 +1,62 @@
+<configuration>
+    <!-- Appender and logger configurations go here -->
+
+    <property name="LOG_DIR" value="logs"/>
+    <property name="LOG_FILE" value="${LOG_DIR}/app.log"/>
+
+    <appender name="MyConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %cyan(%d{HH:mm:ss}) %yellow([%thread]) %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!--    <appender name = "MyFileAppender" class="ch.qos.logback.core.FileAppender">-->
+    <!--        <file>logs/app.log</file>-->
+    <!--        <encoder>-->
+    <!--            <pattern>-->
+    <!--                %date [%thread] %-5level %logger{36} - %msg%n-->
+    <!--            </pattern>-->
+    <!--        </encoder>-->
+    <!--    </appender>-->
+
+
+    <appender name="ROLLING_FILE_Appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- Daily file + index if size exceeds -->
+            <fileNamePattern>${LOG_DIR}/app.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+
+            <!-- Max size per file -->
+            <maxFileSize>10MB</maxFileSize>
+
+            <!-- Keep logs for 15 days -->
+            <maxHistory>15</maxHistory>
+
+            <!-- Optional: Total log size cap -->
+            <totalSizeCap>1GB</totalSizeCap>
+
+<!--            If size exceeds 5MB within the same minute → create app.2025-06-22_14-38.0.log, app.2025-06-22_14-38.1.log, etc.-->
+<!--            <fileNamePattern>${LOG_DIR}/app.%d{yyyy-MM-dd_HH-mm}.%i.log</fileNamePattern>-->
+<!--            <maxFileSize>5MB</maxFileSize> &lt;!&ndash; if log > 5MB within same minute, create .1, .2 &ndash;&gt;-->
+<!--            <maxHistory>60</maxHistory>-->
+<!--            <totalSizeCap>1GB</totalSizeCap>-->
+
+
+
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="MyConsoleAppender"/>
+        <appender-ref ref="ROLLING_FILE_Appender"/>
+    </root>
+
+</configuration>
