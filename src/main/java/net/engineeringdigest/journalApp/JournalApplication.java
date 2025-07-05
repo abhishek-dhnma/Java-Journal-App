@@ -27,8 +27,13 @@ public class JournalApplication {
         ConfigurableApplicationContext AppContext = SpringApplication.run(JournalApplication.class, args);
         ConfigurableEnvironment appContextEnvironment = AppContext.getEnvironment();
         //this will print which environment is current;y running dev/prod/sys etc
-        System.out.println(appContextEnvironment.getActiveProfiles()[0]);
-
+        //System.out.println(appContextEnvironment.getActiveProfiles()[0]);
+        String[] profiles = appContextEnvironment.getActiveProfiles();
+        if (profiles.length > 0) {
+            System.out.println("Active profile: " + profiles[0]);
+        } else {
+            System.out.println("No active profile set.");
+        }
 
     }
 
